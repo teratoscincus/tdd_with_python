@@ -1,0 +1,4 @@
+__pycache__/
+tddwp_env/
+db.sqlite3
+geckodriver.log
