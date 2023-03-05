@@ -6,9 +6,12 @@
 
 <body>
   <h1>Your To-Do lists</h1>
-  <input id="new_item" placeholder="Enter a to-do item" />
+  <form method="POST">
+    <input name="item_text" id="new_item" placeholder="Enter a to-do item" />
+    {% csrf_token %}
+  </form>
   <table id="list_table">
-
+    <tr></tr>
   </table>
 </body>
 
