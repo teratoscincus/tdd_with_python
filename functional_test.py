@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import unittest
+import time
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -32,6 +33,7 @@ class NewVisitorTest(unittest.TestCase):
         # "1: Buy tomatoes" as an item in a to-do list.
         inputbox.send_keys(Keys.ENTER)
 
+        time.sleep(1)  # Await page update after submit
         table = self.browser.find_element(By.ID, "list_table")
         rows = table.find_elements(By.TAG_NAME, "tr")
         self.assertTrue(
