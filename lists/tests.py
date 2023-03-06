@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from . import views
+from .models import ListItem
 
 
 class HomePageTest(TestCase):
@@ -43,3 +44,22 @@ class HomePageTest(TestCase):
             "lists/index.html", context={"new_item_text": item_text}
         )
         self.assertHTMLEqualExceptCSRF(response.content.decode(), expected_html)
+
+
+class ItemModelIntegratedTest(TestCase):
+    def test_saving_and_retrieving_items(self):
+        first_item = ListItem()
+        first_item.text = "The first (ever) list item"
+        first_item.save()
+
+        second_item = ListItem()
+        second_item.text = "The second item"
+        second_item.save()
+
+        saved_items = ListItem.objects.all()
+        self.assertEqual(saved_items.count(), 2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, "The first (ever) list item")
+        self.assertEqual(second_saved_item.text, "The second item")
