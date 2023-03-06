@@ -36,10 +36,7 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)  # Await page update after submit
         table = self.browser.find_element(By.ID, "list_table")
         rows = table.find_elements(By.TAG_NAME, "tr")
-        self.assertTrue(
-            any(row.text == "1: Buy tomatoes" for row in rows),
-            msg="New to-do item did not appear in table",
-        )
+        self.assertIn("1: Buy tomatoes", [row.text for row in rows])
 
         # There is still a textbox inviting the user to make another entry.
         self.fail("Test not fully implemented - Finish writing the test!")
