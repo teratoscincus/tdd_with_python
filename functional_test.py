@@ -34,20 +34,28 @@ class NewVisitorTest(unittest.TestCase):
         # On submission by pressing Enter, the page updates and lists:
         # "1: Buy tomatoes" as an item in a to-do list.
         inputbox.send_keys(Keys.ENTER)
-
         time.sleep(1)  # Await page update after submit
+
         table = self.browser.find_element(By.ID, "list_table")
         rows = table.find_elements(By.TAG_NAME, "tr")
         self.assertIn("1: Buy tomatoes", [row.text for row in rows])
 
         # There is still a textbox inviting the user to make another entry.
-        self.fail("Test not fully implemented - Finish writing the test!")
-
         # User enters "Make tomato sauce"
+        inputbox = self.browser.find_element(By.ID, "new_item")
+        inputbox.send_keys("Make tomato sauce")
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # The page updates again, and now shows both items in the to-do list.
+        table = self.browser.find_element(By.ID, "list_table")
+        rows = table.find_elements(By.TAG_NAME, "tr")
+        self.assertIn("1: Buy tomatoes", [row.text for row in rows])
+        self.assertIn("2: Make tomato sauce", [row.text for row in rows])
 
-        # Check that a unique URL for the user has been generated.
+        # Check that a unique URL for the users list has been generated.
+
+        self.fail("Test not fully implemented - Finish writing the test!")
 
         # Visit URL and ensure the users to-do list is still there.
 
