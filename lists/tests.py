@@ -28,3 +28,18 @@ class HomePageTest(TestCase):
         response = views.index(request)
         expected_html = render_to_string("lists/index.html")
         self.assertHTMLEqualExceptCSRF(response.content.decode(), expected_html)
+
+    def test_index_page_can_save_a_POST_request(self):
+        # Setup
+        request = HttpRequest()
+        request.method = "POST"
+        item_text = "A new list item"
+        request.POST["item_text"] = item_text
+        # Exercise
+        response = views.index(request)
+        # Assert
+        self.assertIn(item_text, response.content.decode())
+        expected_html = render_to_string(
+            "lists/index.html", context={"new_item_text": item_text}
+        )
+        self.assertHTMLEqualExceptCSRF(response.content.decode(), expected_html)
