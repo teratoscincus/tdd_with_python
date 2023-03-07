@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
+import time
+
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import unittest
-import time
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -22,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # User visits homepage.
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 
         # Check that "To-Do" is in the page title and header.
         self.assertIn("To-Do", self.browser.title)
@@ -59,7 +60,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail("Test not fully implemented - Finish writing the test!")
 
         # Visit URL and ensure the users to-do list is still there.
-
-
-if __name__ == "__main__":
-    unittest.main(warnings="ignore")
