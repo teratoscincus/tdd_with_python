@@ -10,6 +10,13 @@
     <input name="item_text" id="new_item" placeholder="Enter a to-do item" />
     {% csrf_token %}
   </form>
+  <table id="list_table">
+    {% for list_item in list_items %}
+    <tr>
+      <td>{{ forloop.counter }}: {{ list_item.text }}</td>
+    </tr>
+    {% endfor %}
+  </table>
 </body>
 
 </html>
