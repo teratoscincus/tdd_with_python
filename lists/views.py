@@ -1,10 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
+from .models import ListItem
 
 
 def index(request):
+    if request.method == "POST":
+        ListItem.objects.create(text=request.POST.get("item_text", ""))
+        return redirect("/")
+
     return render(
         request,
         "lists/index.html",
-        context={"new_item_text": request.POST.get("item_text", "")},
+        context={
+            "list_items": ListItem.objects.all(),
+        },
     )

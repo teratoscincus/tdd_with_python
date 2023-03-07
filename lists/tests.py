@@ -59,6 +59,16 @@ class HomePageTest(TestCase):
         views.index(request)
         self.assertEqual(ListItem.objects.count(), 0)
 
+    def test_index_page_displays_all_list_items(self):
+        ListItem.objects.create(text="List Item 1")
+        ListItem.objects.create(text="List Item 2")
+
+        request = HttpRequest()
+        response = views.index(request)
+
+        self.assertIn("List Item 1", response.content.decode())
+        self.assertIn("List Item 2", response.content.decode())
+
 
 class ItemModelIntegratedTest(TestCase):
     def test_saving_and_retrieving_items(self):
