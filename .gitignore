@@ -3,4 +3,4 @@ tddwp_env/
 db.sqlite3
 geckodriver.log
 
-.notes.txt
+.notes.*
