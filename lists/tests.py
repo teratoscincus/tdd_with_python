@@ -39,11 +39,25 @@ class HomePageTest(TestCase):
         # Exercise
         response = views.index(request)
         # Assert
-        self.assertIn(item_text, response.content.decode())
-        expected_html = render_to_string(
-            "lists/index.html", context={"new_item_text": item_text}
-        )
-        self.assertHTMLEqualExceptCSRF(response.content.decode(), expected_html)
+        self.assertEqual(ListItem.objects.count(), 1)
+        new_item = ListItem.objects.first()
+        self.assertEqual(new_item.text, item_text)
+
+    def test_index_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = "POST"
+        item_text = "A new list item"
+        request.POST["item_text"] = item_text
+
+        response = views.index(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"], "/")
+
+    def test_index_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        views.index(request)
+        self.assertEqual(ListItem.objects.count(), 0)
 
 
 class ItemModelIntegratedTest(TestCase):
