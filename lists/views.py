@@ -7,12 +7,13 @@ def index(request):
     return render(request, "lists/index.html")
 
 
-def view_list(request):
+def view_list(request, pk):
     return render(
         request,
         "lists/list.html",
         context={
-            "list_items": ListItem.objects.all(),
+            "list": List.objects.get(pk=pk),
+            "list_items": ListItem.objects.filter(list__pk=pk),
         },
     )
 
@@ -20,4 +21,10 @@ def view_list(request):
 def new_list(request):
     list_ = List.objects.create()
     ListItem.objects.create(text=request.POST.get("item_text", ""), list=list_)
-    return redirect("/lists/the-only-list-in-the-world/")
+    return redirect(f"/lists/{list_.pk}/")
+
+
+def add_item(request, pk):
+    list_ = List.objects.get(pk=pk)
+    ListItem.objects.create(text=request.POST.get("item_text", ""), list=list_)
+    return redirect(f"/lists/{list_.pk}/")
