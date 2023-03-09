@@ -88,4 +88,15 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Both users leave the web site.
 
+    def test_layout_and_styling(self):
+        # User1 goes to the index page.
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1644, 752)
+
+        # Check centering of input box.
+        inputbox = self.browser.find_element(By.ID, "new_item")
+        self.assertAlmostEqual(
+            inputbox.location["x"] + inputbox.size["width"] / 2, 822, delta=5
+        )
+
         self.fail("Test not fully implemented - Finish writing the test!")
