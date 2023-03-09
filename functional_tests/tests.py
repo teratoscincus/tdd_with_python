@@ -2,13 +2,13 @@
 
 import time
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -91,12 +91,12 @@ class NewVisitorTest(LiveServerTestCase):
     def test_layout_and_styling(self):
         # User1 goes to the index page.
         self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1644, 752)
+        window_width = self.browser.get_window_size()["width"]
 
         # Check centering of input box.
         inputbox = self.browser.find_element(By.ID, "new_item")
         self.assertAlmostEqual(
-            inputbox.location["x"] + inputbox.size["width"] / 2, 822, delta=5
+            inputbox.location["x"] + inputbox.size["width"] / 2,
+            window_width / 2,
+            delta=5,
         )
-
-        self.fail("Test not fully implemented - Finish writing the test!")
