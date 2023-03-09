@@ -5,7 +5,7 @@
 {% block form_action %}/lists/{{ list.pk }}/add-item{% endblock %}
 
 {% block table %}
-<table id="list_table">
+<table id="list_table" class="text-start table">
   {% for list_item in list_items %}
   <tr>
     <td>{{ forloop.counter }}: {{ list_item.text }}</td>
